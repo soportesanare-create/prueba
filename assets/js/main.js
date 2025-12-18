@@ -1,17 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const body = document.body;
 
-  // Altura real del header (para que el menú móvil no se amontone/encime)
-  const headerEl = document.querySelector(".site-header");
-  const setHeaderHeightVar = () => {
-    if (!headerEl) return;
-    document.documentElement.style.setProperty("--header-h", `${headerEl.offsetHeight}px`);
-  };
-  setHeaderHeightVar();
-  // Recalcular en resize y cuando cargan fuentes/recursos
-  window.addEventListener("resize", () => setHeaderHeightVar());
-  window.addEventListener("load", () => setHeaderHeightVar());
-
   // Año dinámico
   const yearSpan = document.getElementById("year");
   if (yearSpan) {
@@ -33,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const targetEl = document.querySelector(targetId);
       if (targetEl) {
         e.preventDefault();
-        const headerOffset = headerEl ? headerEl.offsetHeight + 12 : 80;
+        const headerOffset = 80;
         const rect = targetEl.getBoundingClientRect();
         const offsetTop = rect.top + window.scrollY - headerOffset;
         window.scrollTo({ top: offsetTop, behavior: "smooth" });

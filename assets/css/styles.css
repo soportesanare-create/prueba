@@ -1222,64 +1222,13 @@ a {
 }
 
 @media (max-width: 768px) {
-
-  /* ===== Mobile header layout fix (anti-amontonado) ===== */
-  .header-inner{
-    padding: 0.55rem 0;
-    gap: 0.75rem;
-  }
-  .brand{
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-  }
-  .brand-logo{
-    height: 34px;
-    width: auto;
-    max-width: 68vw;
-    object-fit: contain;
-  }
-  .nav-toggle{
-    width: 44px;
-    height: 44px;
-    border-radius: 14px;
-    background: rgba(247, 138, 122, 0.12);
-    border: 1px solid rgba(247, 138, 122, 0.22);
-  }
-  .nav-toggle span{
-    width: 22px;
-  }
-
-  /* Menú móvil: arriba limpio y sin encimarse */
-  .nav{
-    z-index: 65;
-    inset: calc(var(--header-h, 72px) + 8px) 0.85rem auto 0.85rem;
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
-  body.nav-open{
-    overflow: hidden;
-  }
-  body.nav-open::before{
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.18);
-    backdrop-filter: blur(2px);
-    z-index: 55;
-  }
-  .site-header{
-    z-index: 70;
-  }
   .site-header {
     top: 0;
   }
 
   .nav {
     position: fixed;
-    inset: calc(var(--header-h, 72px) + 10px) 1rem auto 1rem;
+    inset: 60px 1rem auto 1rem;
     padding: 0.75rem 0.9rem;
     border-radius: 1rem;
     background: rgba(255, 255, 255, 0.98);
@@ -1291,9 +1240,6 @@ a {
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-    max-height: calc(100vh - (var(--header-h, 72px) + 28px));
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
   .nav-open .nav {
@@ -1308,15 +1254,6 @@ a {
 
   .btn-header-cta {
     display: none;
-  }
-
-  /* Header más compacto en móvil (evita que se amontone) */
-  .header-inner { gap: 0.75rem; }
-  .header-social { display: none; }
-  .brand-logo {
-    height: 44px;
-    max-width: 70vw;
-    object-fit: contain;
   }
 
   .hero {
@@ -1632,7 +1569,6 @@ position: absolute;
 .header-inner{
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
 }
 .header-social{
@@ -1669,4 +1605,60 @@ position: absolute;
 }
 @media (max-width: 560px){
   .header-social{ display:none; }
+}
+
+/* === Mobile: mostrar navegación horizontal y quitar menú desplegable === */
+@media (max-width: 768px){
+  .header-inner{
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-block: 0.75rem;
+  }
+
+  .brand-logo{
+    max-width: min(72vw, 260px);
+    height: auto;
+  }
+
+  /* Nav siempre visible en una sola fila (scroll horizontal si no cabe) */
+  .nav{
+    position: static !important;
+    inset: auto !important;
+    width: 100%;
+    margin-top: 0.15rem;
+    padding: 0.15rem 0;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition: none !important;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  .nav a{
+    white-space: nowrap;
+    padding: 0.45rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(248, 138, 122, 0.10);
+  }
+
+  /* Quitar botón hamburguesa y redes en móvil */
+  .nav-toggle{ display: none !important; }
+  .header-social{ display: none !important; }
+  .btn-header-cta{ display: none !important; }
+
+  /* Ocultar scrollbar en navegadores modernos */
+  .nav::-webkit-scrollbar{ height: 0; }
 }
