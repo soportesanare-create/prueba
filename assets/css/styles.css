@@ -1222,6 +1222,57 @@ a {
 }
 
 @media (max-width: 768px) {
+
+  /* ===== Mobile header layout fix (anti-amontonado) ===== */
+  .header-inner{
+    padding: 0.55rem 0;
+    gap: 0.75rem;
+  }
+  .brand{
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+  }
+  .brand-logo{
+    height: 34px;
+    width: auto;
+    max-width: 68vw;
+    object-fit: contain;
+  }
+  .nav-toggle{
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    background: rgba(247, 138, 122, 0.12);
+    border: 1px solid rgba(247, 138, 122, 0.22);
+  }
+  .nav-toggle span{
+    width: 22px;
+  }
+
+  /* Menú móvil: arriba limpio y sin encimarse */
+  .nav{
+    z-index: 65;
+    inset: calc(var(--header-h, 72px) + 8px) 0.85rem auto 0.85rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  body.nav-open{
+    overflow: hidden;
+  }
+  body.nav-open::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.18);
+    backdrop-filter: blur(2px);
+    z-index: 55;
+  }
+  .site-header{
+    z-index: 70;
+  }
   .site-header {
     top: 0;
   }
