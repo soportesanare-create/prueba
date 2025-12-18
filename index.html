@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanaré | Clínicas de Infusión de Alta Especialidad</title>
+  <meta name="description" content="Sanaré, clínicas de infusión y medicina de alta especialidad. Tratamientos IV seguros, cálidos y accesibles para pacientes oncológicos y enfermedades crónicas." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  
+  <!-- n8n embedded chat widget (Lorey) -->
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+  <style>
+    /* --- Sanaré: ajustes del widget de chat (launcher con logo + siempre visible) --- */
+    .n8n-chat,
+    .n8n-chat__container,
+    .n8n-chat__window,
+    .n8n-chat__launcher,
+    .n8n-chat-launcher,
+    .n8n-chat-launcher button {
+      z-index: 999999 !important;
+    }
+
+    /* Botón flotante: círculo naranja + logo al centro */
+    .n8n-chat__launcher,
+    .n8n-chat-launcher,
+    .n8n-chat-launcher button,
+    button[aria-label*="chat" i],
+    button[aria-label*="abrir" i] {
+      background-color: rgba(248, 138, 122, 0.98) !important;
+      background-image: url('assets/img/sanare_s_mark.png') !important;
+      background-repeat: no-repeat !important;
+      background-position: center !important;
+      background-size: 68% 68% !important;
+      border: none !important;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18) !important;
+    }
+    /* Oculta el ícono original (si existe) para que se vea el logo */
+    .n8n-chat__launcher svg,
+    .n8n-chat-launcher svg,
+    .n8n-chat__launcher i,
+    .n8n-chat-launcher i {
+      opacity: 0 !important;
+    }
+  
+    /* Overlay del logo (por si el widget usa ícono interno que tapa el background) */
+    .sanare-launcher-branded {
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    .sanare-launcher-branded .sanare-launcher-logo {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 68%;
+      height: 68%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 2;
+      display: block;
+    }
+    /* Esconde cualquier ícono interno */
+    .sanare-launcher-branded svg,
+    .sanare-launcher-branded i,
+    .sanare-launcher-branded span,
+    .sanare-launcher-branded .icon,
+    .sanare-launcher-branded [class*="icon" i] {
+      opacity: 0 !important;
+    }
+
+
+    /* --- Sanaré: botón flotante WhatsApp junto al chat --- */
+    .sanare-wa-float{
+      position: fixed;
+      right: 96px; /* a la izquierda del botón del chat */
+      bottom: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #25D366;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+      z-index: 999999 !important;
+      text-decoration: none;
+      transform: translateZ(0);
+    }
+    .sanare-wa-float:hover{
+      filter: brightness(0.95);
+    }
+    .sanare-wa-float svg{
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+      display:block;
+    }
+    @media (max-width: 480px){
+      .sanare-wa-float{
+        right: 88px;
+        bottom: 18px;
+        width: 54px;
+        height: 54px;
+      }
+    }
+  </style>
+
+
+  <!-- Favicons -->
+  <link rel="icon" href="assets/img/favicon-32.png">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/android-chrome-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/img/android-chrome-512.png">
+  <link rel="shortcut icon" href="favicon.ico">
+
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#inicio" class="brand">
+        <img src="assets/img/logo-sanare.png" alt="Sanaré Clínicas de Infusión" class="brand-logo" />
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="#pacientes">Pacientes</a>
+        <a href="#medicos">Médicos</a>
+        <a href="#tratamientos">Tratamientos</a>
+        <a href="#experiencia">Experiencia</a>
+        <a href="#sedes">Sedes</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <button class="nav-toggle" aria-label="Abrir menú" id="navToggle">
+        <span></span>
+        <span></span>
+      </button>
+      <a href="#contacto" class="btn btn-primary btn-header-cta">
+        Agenda tu infusión
+      </a>
+      <div class="header-social" aria-label="Redes sociales Sanaré">
+        <a class="social-link" href="https://mx.linkedin.com/company/sanar%C3%A9" target="_blank" rel="noopener" aria-label="LinkedIn Sanaré">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5ZM.3 23.5h4.4V7.9H.3v15.6ZM8.2 7.9h4.2v2.1h.1c.6-1.1 2.1-2.3 4.4-2.3 4.7 0 5.6 3.1 5.6 7.2v8.6h-4.4v-7.6c0-1.8 0-4.1-2.5-4.1s-2.9 2-2.9 4v7.7H8.2V7.9Z"/>
+          </svg>
+        </a>
+        <a class="social-link" href="https://www.instagram.com/sanare_clinic/" target="_blank" rel="noopener" aria-label="Instagram Sanaré">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9A3.5 3.5 0 0 0 20 16.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm10.75 1.5a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <main id="inicio">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-top-banner" aria-hidden="true">
+        <img src="assets/img/hero-banner-sanare.jpg" alt="Sanaré Clínica de Infusión">
+      </div>
+
+      <div class="container hero-grid">
+        <div class="hero-content reveal">
+          <span class="chip chip-soft">Clínicas de Infusión de Alta Especialidad</span>
+          <h1>
+            Infusiones oncológicas <span class="text-gradient">seguras, humanas y accesibles</span>.
+          </h1>
+          <p class="hero-subtitle">
+            En Sanaré acompañamos cada tratamiento con un equipo especializado, instalaciones cómodas y trazabilidad completa de tu medicamento.
+          </p>
+          <div class="hero-actions">
+            <a href="#pacientes" class="btn btn-primary">Soy paciente</a>
+            <a href="#medicos" class="btn btn-ghost">Soy médico</a>
+          </div>
+          <div class="hero-meta">
+            <div class="hero-meta-item">
+              <div class="meta-top">
+                <span class="meta-label">+</span>
+                <span class="meta-value counter" data-count="20000">0</span>
+              </div>
+              <span class="meta-caption">infusiones aplicadas</span>
+            </div>
+            <div class="hero-meta-item">
+              <div class="meta-top">
+                <span class="meta-value counter" data-count="4500">0</span>
+              </div>
+              <span class="meta-caption">pacientes atendidos</span>
+            </div>
+            <div class="hero-meta-item">
+              <div class="meta-top">
+                <span class="meta-value counter" data-count="12">0</span>
+              </div>
+              <span class="meta-caption">sedes especializadas</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-media reveal delay-1">
+          <div class="hero-card">
+            <video class="hero-image hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/img/hero-sanare.png">
+              <source src="assets/video/hero.mp4" type="video/mp4">
+            </video>
+            <div class="hero-floating-card">
+              <p>Experiencia oncológica integral</p>
+              <span>Coordinamos tu tratamiento con tu médico y tu aseguradora.</span>
+            </div>
+          </div>
+          <div class="hero-badges">
+            <div class="badge-item">
+              <span class="badge-title">Hasta 50% ahorro</span>
+              <span class="badge-sub">vs. hospital tradicional</span>
+            </div>
+            <div class="badge-item">
+              <span class="badge-title">Libre de infecciones</span>
+              <span class="badge-sub">entorno ambulatorio controlado</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASEGURADORAS -->
+    <section class="section insurers">
+      <div class="insurers-bg-video" aria-hidden="true">
+        <video class="insurers-video" autoplay muted loop playsinline preload="metadata">
+          <source src="assets/video/insurers-bubbles.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="container">
+        <p class="eyebrow">Aseguradoras</p>
+        <div class="section-header">
+          <h2>Aceptamos los principales seguros de gastos médicos mayores.</h2>
+          <p>Coordinamos tu tratamiento con tu póliza nacional e internacional para que te enfoques en lo más importante: tu bienestar.</p>
+        </div>
+        <div class="insurers-grid">
+          <span class="insurer-pill">AXA</span>
+          <span class="insurer-pill">GNP</span>
+          <span class="insurer-pill">MetLife</span>
+          <span class="insurer-pill">Zurich</span>
+          <span class="insurer-pill">Seguros Sura</span>
+          <span class="insurer-pill">Pan-American</span>
+          <span class="insurer-pill">Best Doctors</span>
+          <span class="insurer-pill">Banorte</span>
+          <span class="insurer-pill">BBVA</span>
+          <span class="insurer-pill">HSBC</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACIENTES -->
+    <section class="section section-split" id="pacientes">
+      <div class="container split-grid">
+        <div class="split-media reveal">
+          <video class="split-image" autoplay muted loop playsinline preload="metadata" poster="assets/img/paciente-infusion.png">
+            <source src="assets/video/paciente-infusion.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div class="split-content reveal delay-1">
+          <p class="eyebrow">Pacientes</p>
+          <h2>Tu infusión, en un lugar que se siente como casa.</h2>
+          <p>
+            Desde el primer contacto, nuestro equipo de coordinación clínica te acompaña para entender tu diagnóstico,
+            validar tu esquema de tratamiento y coordinar la logística con tu médico y aseguradora.
+          </p>
+          <ul class="checklist">
+            <li>Salas de infusión cómodas, silenciosas y con Wi-Fi.</li>
+            <li>Monitoreo continuo de signos vitales durante todo el tratamiento.</li>
+            <li>Farmacovigilancia y trazabilidad completa de cada frasco.</li>
+            <li>Equipo de enfermería certificado en manejo oncológico.</li>
+          </ul>
+          <div class="highlight-box">
+            <span class="highlight-title">¿Es tu primera infusión?</span>
+            <p>Agenda una llamada informativa sin costo para entender tu esquema, tiempos de administración y requisitos.</p>
+            <a href="#contacto" class="link-arrow">Quiero que me llamen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÉDICOS -->
+    <section class="section section-split section-alt" id="medicos">
+      <div class="container split-grid split-grid-reverse">
+        <div class="split-content reveal">
+          <p class="eyebrow">Médicos</p>
+          <h2>Un aliado confiable para tus pacientes oncológicos.</h2>
+          <p>
+            Sanaré integra procesos clínicos, farmacéuticos y administrativos para que tus pacientes reciban su esquema tal como lo indicaste,
+            con reportes de seguimiento claros y oportunos.
+          </p>
+          <div class="feature-grid">
+            <div class="feature-card">
+              <h3>Coordinación 360°</h3>
+              <p>Gestionamos agenda, infusión, farmacovigilancia y reporte de eventos para mantenerte siempre informado.</p>
+            </div>
+            <div class="feature-card">
+              <h3>Trazabilidad</h3>
+              <p>Código de lote, fecha de caducidad, cadena de frío y bitácoras de enfermería en un solo reporte.</p>
+            </div>
+            <div class="feature-card">
+              <h3>Modelos flexibles</h3>
+              <p>Atención a pacientes asegurados, particulares y convenios con instituciones.</p>
+            </div>
+          </div>
+          <a href="#contacto" class="btn btn-outline">
+            Quiero referir a un paciente
+          </a>
+        </div>
+        <div class="split-media reveal delay-1">
+          <video class="split-image" autoplay muted loop playsinline preload="metadata" poster="assets/img/adn-sanare.png">
+            <source src="assets/video/oncologia-adn.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRATAMIENTOS / ESPECIALIDADES -->
+    <section class="section" id="tratamientos">
+      <div class="container">
+        <p class="eyebrow">Tratamientos &amp; Especialidades</p>
+        <div class="section-header">
+          <h2>Clínicas de infusión para distintas especialidades.</h2>
+          <p>Atendemos esquemas de tratamiento ambulatorio en múltiples áreas terapéuticas, con protocolos y rutas clínico-administrativas definidas.</p>
+        </div>
+        <div class="chips-row">
+          <button class="chip chip-filter chip-active" data-filter="all">Todos</button>
+          <button class="chip chip-filter" data-filter="onco">Oncología</button>
+          <button class="chip chip-filter" data-filter="hema">Hematología</button>
+          <button class="chip chip-filter" data-filter="reuma">Reumatología</button>
+          <button class="chip chip-filter" data-filter="neuro">Neurología</button>
+          <button class="chip chip-filter" data-filter="inmuno">Inmunología</button>
+        </div>
+        <div class="treatments-grid">
+          <article class="treatment-card" data-category="onco">
+            <h3>Oncología Médica</h3>
+            <p>Esquemas de quimioterapia, inmunoterapia y terapias blanco con monitoreo especializado y soporte integral.</p>
+            <ul>
+              <li>Protocolos antieméticos</li>
+              <li>Valoración previa</li>
+              <li>Coordinación con central de mezclas</li>
+            </ul>
+          </article>
+          <article class="treatment-card" data-category="hema">
+            <h3>Hematología</h3>
+            <p>Tratamientos IV para patologías hematológicas con enfoque en seguridad transfusional y seguimiento estricto.</p>
+            <ul>
+              <li>Infusión de anticuerpos monoclonales</li>
+              <li>Soporte con hemoderivados</li>
+            </ul>
+          </article>
+          <article class="treatment-card" data-category="reuma">
+            <h3>Reumatología</h3>
+            <p>Aplicación de biológicos y terapias de infusión para enfermedades autoinmunes.</p>
+            <ul>
+              <li>Esquemas de mantenimiento</li>
+              <li>Farmacovigilancia activa</li>
+            </ul>
+          </article>
+          <article class="treatment-card" data-category="neuro">
+            <h3>Neurología</h3>
+            <p>Infusión de terapias modificadoras de enfermedad y esquemas IV crónicos.</p>
+            <ul>
+              <li>Protocolos de seguridad neurológica</li>
+              <li>Salas adaptadas a estancias prolongadas</li>
+            </ul>
+          </article>
+          <article class="treatment-card" data-category="inmuno">
+            <h3>Inmunología &amp; otras</h3>
+            <p>Inmunoglobulinas, antibióticos IV y otros esquemas ambulatorios bajo protocolos estructurados.</p>
+            <ul>
+              <li>Home infusion seleccionada</li>
+              <li>Coordinación con aseguradoras</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCIA -->
+    <section class="section section-alt" id="experiencia">
+      <div class="container split-grid">
+        <div class="split-content reveal">
+          <p class="eyebrow">Experiencia Sanaré</p>
+          <h2>Clínicas diseñadas para que el tratamiento se sienta menos hospital y más bienestar.</h2>
+          <p>
+            Cada sede Sanaré está pensada para brindar privacidad, comodidad y seguridad. Modelos de atención centrados
+            en la persona, no solo en la patología.
+          </p>
+          <div class="pill-stats">
+            <div class="pill-stat">
+              <span class="pill-value">4.9★</span>
+              <span class="pill-label">satisfacción promedio</span>
+            </div>
+            <div class="pill-stat">
+              <span class="pill-value">+800</span>
+              <span class="pill-label">médicos que refieren</span>
+            </div>
+            <div class="pill-stat">
+              <span class="pill-value">+2</span>
+              <span class="pill-label">años de experiencia</span>
+            </div>
+          </div>
+          <ul class="timeline">
+            <li>
+              <span class="timeline-dot"></span>
+              <div class="timeline-content">
+                <h3>1. Te escuchamos</h3>
+                <p>Revisamos tu diagnóstico, tu esquema y resolvemos tus dudas antes de la primera infusión.</p>
+              </div>
+            </li>
+            <li>
+              <span class="timeline-dot"></span>
+              <div class="timeline-content">
+                <h3>2. Coordinamos todo</h3>
+                <p>Agendamos tu cita, verificamos autorización con tu aseguradora y preparamos tu medicamento.</p>
+              </div>
+            </li>
+            <li>
+              <span class="timeline-dot"></span>
+              <div class="timeline-content">
+                <h3>3. Acompañamos tu tratamiento</h3>
+                <p>Equipo médico y de enfermería contigo en cada paso, con seguimiento posterior a la infusión.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="split-media reveal delay-1">
+          <video class="split-image shadow-xl" autoplay muted loop playsinline preload="metadata" poster="assets/img/clinica-sanare.png">
+            <source src="assets/video/instalaciones-sanare.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEDES -->
+    <section class="section section-alt" id="sedes">
+      <div class="container">
+        <p class="eyebrow">Sedes</p>
+        <div class="section-header">
+          <h2>Encuentra tu clínica Sanaré más cercana.</h2>
+          <p>Red de clínicas de infusión en crecimiento, diseñadas para que no tengas que interrumpir tu tratamiento.</p>
+        </div>
+        <div class="sede-controls">
+          <label class="field-label" for="sedeFilter">Filtrar por ciudad</label>
+          <select id="sedeFilter" class="select">
+            <option value="all">Todas las sedes</option>
+            <option value="cdmx">CDMX</option>
+            <option value="toluca">Toluca</option>
+            <option value="morelia">Morelia</option>
+          </select>
+        </div>
+        <div class="sedes-grid" id="sedesGrid">
+<!-- MAPA INTERACTIVO (Sedes) -->
+          <div class="sede-map-card" aria-label="Mapa interactivo de sedes Sanaré">
+            <div class="sede-map-wrap" id="sedeMap">
+              <img src="assets/img/mapa-sedes-sanare.png" alt="Mapa de México con sedes Sanaré" />
+
+              <button class="sede-pin" type="button" aria-label="Sede CDMX" data-num="1"
+                data-title="CDMX" data-address="Anaxágoras 301 esq. La Morena, Narvarte Poniente, Benito Juárez, 03020, CDMX" data-href="https://share.google/hqGltQ6DWVwLAATW5"
+                style="--x:59.36%; --y:60.04%;">
+                <span class="tip">CDMX</span>
+              </button>
+
+              <button class="sede-pin" type="button" aria-label="Sede Toluca" data-num="2"
+                data-title="Toluca" data-address="Av. Paseo Tollocan 2533, Santa María Totoltepec, 50246 Toluca de Lerdo, Méx." data-href="https://share.google/podUK8kjU8pSvlWzX"
+                style="--x:57.37%; --y:64.11%;">
+                <span class="tip">Toluca</span>
+              </button>
+
+              <button class="sede-pin" type="button" aria-label="Sede Morelia" data-num="3"
+                data-title="Morelia" data-address="General Pedro María Anaya 551, Chapultepec Sur, C.P. 58260, Morelia, Michoacán" data-href="https://www.google.com/maps/search/?api=1&query=General+Pedro+Mar%C3%ADa+Anaya+551%2C+Chapultepec+Sur%2C+C.P.+58260%2C+Morelia%2C+Michoac%C3%A1n"
+                style="--x:51.76%; --y:62.30%;">
+                <span class="tip">Morelia</span>
+              </button>
+            </div>
+          </div>
+<article class="sede-card" data-city="cdmx">
+            <h3><span class="sede-num">1</span> Narvarte</h3>
+            <p>Clínica de infusión oncológica con salas privadas y estacionamiento.</p>
+            <ul>
+              <li>Dirección: Anaxágoras 301 esq. La Morena, Narvarte Poniente, Benito Juárez, 03020, CDMX</li>
+              <li>Teléfono: 55 5255 8403</li>
+              <li>Horario: Lun–Vier · 8:00–5:00</li>
+            </ul>
+            <a class="btn-link sede-details" href="https://share.google/hqGltQ6DWVwLAATW5" target="_blank" rel="noopener" data-title="Narvarte" data-address="Anaxágoras 301 esq. La Morena, Narvarte Poniente, Benito Juárez, 03020, CDMX">Ver detalles</a>
+          </article>
+
+<article class="sede-card" data-city="toluca">
+            <h3><span class="sede-num">2</span> Toluca</h3>
+            <p>Atención oncológica integral con fácil acceso desde vialidades principales.</p>
+            <ul>
+              <li>Dirección: Av. Paseo Tollocan 2533, Santa María Totoltepec, 50246 Toluca de Lerdo, Méx.</li>
+              <li>Teléfono: 722 197 0836</li>
+              <li>Horario: Lun–Vier · 8:00–5:00</li>
+            </ul>
+            <a class="btn-link sede-details" href="https://share.google/podUK8kjU8pSvlWzX" target="_blank" rel="noopener" data-title="Toluca" data-address="Av. Paseo Tollocan 2533, Santa María Totoltepec, 50246 Toluca de Lerdo, Méx.">Ver detalles</a>
+          </article>
+
+<article class="sede-card" data-city="morelia">
+            <h3><span class="sede-num">3</span> Morelia</h3>
+            <p>Clínica de infusión oncológica con atención cercana y seguimiento continuo.</p>
+            <ul>
+              <li>Dirección: General Pedro María Anaya 551, Chapultepec Sur, C.P. 58260, Morelia, Michoacán</li>
+              <li>Teléfono: (por confirmar)</li>
+              <li>Horario: Lun–Vier · 8:00–5:00</li>
+            </ul>
+            <a class="btn-link sede-details" href="https://www.google.com/maps/search/?api=1&query=General+Pedro+Mar%C3%ADa+Anaya+551%2C+Chapultepec+Sur%2C+C.P.+58260%2C+Morelia%2C+Michoac%C3%A1n" target="_blank" rel="noopener" data-title="Morelia" data-address="General Pedro María Anaya 551, Chapultepec Sur, C.P. 58260, Morelia, Michoacán">Ver detalles</a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="section contact" id="contacto">
+      <div class="container contact-grid">
+        <div class="contact-panel primary reveal">
+          <p class="eyebrow">Contacto</p>
+          <h2>Agenda tu primera infusión o resuelve tus dudas.</h2>
+          <p>Compártenos tus datos y un coordinador clínico Sanaré te contactará para orientarte y guiarte en el proceso.</p>
+          <form class="contact-form" onsubmit="return false;">
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label" for="nombre">Nombre completo</label>
+                <input id="nombre" type="text" class="input" placeholder="Escribe tu nombre" required />
+              </div>
+              <div class="field">
+                <label class="field-label" for="telefono">Teléfono</label>
+                <input id="telefono" type="tel" class="input" placeholder="10 dígitos" required />
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label class="field-label" for="correo">Correo electrónico</label>
+                <input id="correo" type="email" class="input" placeholder="tucorreo@ejemplo.com" required />
+              </div>
+              <div class="field">
+                <label class="field-label" for="ciudad">Ciudad</label>
+                <select id="ciudad" class="select">
+                  <option value="">Selecciona una opción</option>
+                  <option value="cdmx">CDMX</option>
+                  <option value="toluca">Toluca</option>
+                        <option value="otra">Otra ciudad</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label" for="motivo">¿En qué podemos ayudarte?</label>
+              <textarea id="motivo" class="textarea" rows="3" placeholder="Ej. Primera quimioterapia, dudas sobre aseguradora, etc."></textarea>
+            </div>
+            <button class="btn btn-primary btn-block" id="btnEnviar">
+              Enviar solicitud
+            </button>
+            <p class="form-footnote">
+              Al enviar tus datos aceptas ser contactado por el equipo Sanaré. No compartimos tu información con terceros sin tu consentimiento.
+            </p>
+          </form>
+        </div>
+        <div class="contact-panel secondary reveal delay-1">
+          <div class="secondary-card">
+            <h3>¿Prefieres WhatsApp?</h3>
+            <p>Escríbenos directamente y un coordinador te responderá a la brevedad.</p>
+            <a href="https://wa.me/525500000000" target="_blank" class="btn btn-outline btn-block">
+              Enviar mensaje por WhatsApp
+            </a>
+          </div>
+          <div class="secondary-card">
+            <h3>Horarios de atención</h3>
+            <ul class="simple-list">
+              <li>Lunes a viernes · 8:00 a 5:00</li>
+              <li>Sábados · 7:00 a 15:00</li>
+            </ul>
+          </div>
+          <div class="secondary-card">
+            <h3>Urgencias</h3>
+            <p>Si presentas algún síntoma fuera de tu esquema, comunícate a la línea indicada en tu carta de tratamiento.</p>
+          </div>
+
+          <div class="secondary-card contact-gallery-card">
+            <h3>Conoce nuestras salas de infusión</h3>
+            <p>Vive la experiencia Sanaré: un entorno cálido, seguro y supervisado.</p>
+
+            <div class="sg-carousel" id="contactGallery" aria-label="Carrusel de imágenes Sanaré">
+              <button class="sgc-btn sgc-prev" type="button" aria-label="Anterior">‹</button>
+
+              <div class="sgc-viewport">
+                <div class="sgc-track">
+                  <div class="sgc-slide"><img src="assets/img/gallery-infusion-1.webp" alt="Sala de infusión Sanaré con paciente y personal de enfermería" loading="lazy" decoding="async"></div>
+                  <div class="sgc-slide"><img src="assets/img/gallery-infusion-2.webp" alt="Paciente durante sesión de infusión acompañado por personal clínico" loading="lazy" decoding="async"></div>
+                  <div class="sgc-slide"><img src="assets/img/gallery-infusion-3.webp" alt="Paciente en sillón de infusión en un ambiente confortable" loading="lazy" decoding="async"></div>
+                  <div class="sgc-slide"><img src="assets/img/gallery-infusion-4.webp" alt="Paciente sonriendo durante la infusión con acompañamiento" loading="lazy" decoding="async"></div>
+                </div>
+              </div>
+
+              <button class="sgc-btn sgc-next" type="button" aria-label="Siguiente">›</button>
+
+              <div class="sgc-dots" aria-label="Paginación del carrusel"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <img src="assets/img/logo-sanare.png" alt="Sanaré" class="footer-logo" />
+        <p class="footer-text">
+          Sanaré · Clínicas de Infusión de Alta Especialidad. Atención humana, medicina de precisión.
+        </p>
+      </div>
+      <div>
+        <h3>Secciones</h3>
+        <ul class="footer-links">
+          <li><a href="#pacientes">Pacientes</a></li>
+          <li><a href="#medicos">Médicos</a></li>
+          <li><a href="#tratamientos">Tratamientos</a></li>
+          <li><a href="#sedes">Sedes</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <ul class="footer-links">
+          <li><a href="mailto:contacto@sanare.mx">contacto@sanare.mx</a></li>
+          <li>CDMX · Toluca · Querétaro</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <small>© <span id="year"></span> Sanaré. Todos los derechos reservados.</small>
+        <small>Sitio de demostración · Reemplaza los datos de contacto por los oficiales.</small>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- MAPA (modal) -->
+  <div class="map-modal" id="mapModal" aria-hidden="true">
+    <div class="map-modal-backdrop" data-map-close="true"></div>
+    <div class="map-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="mapModalTitle">
+      <button class="map-modal-close" type="button" id="mapModalClose" aria-label="Cerrar">×</button>
+      <div class="map-modal-head">
+        <h3 id="mapModalTitle">Ubicación</h3>
+        <a class="map-modal-open" id="mapModalOpen" href="#" target="_blank" rel="noopener">Abrir en Google Maps</a>
+      </div>
+      <div class="map-modal-body">
+        <iframe id="mapModalFrame" title="Mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="toast" id="toast">
+    <span class="toast-message" id="toastMessage"></span>
+  </div>
+
+  <script src="assets/js/main.js"></script>
+
+  <!-- n8n embedded chat widget (Lorey) -->
+  <script type="module">
+    const SANARE_CHAT_CONFIG = {
+      webhookUrl: 'https://winnieadame.app.n8n.cloud/webhook/8bcad6a0-ed62-4136-8284-d64e53fdaae5/chat',
+      defaultLanguage: 'es',
+      initialMessages: [
+        '¡Hola! 👋',
+        'Soy Lorey, tu asistente virtual de Sanaré. ¿En qué puedo ayudarte hoy?'
+      ],
+      i18n: {
+        es: {
+          title: '¡Hola! 👋',
+          subtitle: 'Inicia un chat. Estamos para ayudarte 24/7.',
+          footer: '',
+          getStarted: 'Nueva conversación',
+          inputPlaceholder: 'Escribe tu pregunta…',
+        },
+      },
+    };
+
+    const findLauncher = () => {
+      const selectors = [
+        '.n8n-chat__launcher',
+        '.n8n-chat-launcher',
+        '.n8n-chat-launcher button',
+        'button[aria-label*="chat" i]',
+        'button[aria-label*="abrir" i]',
+        'button[aria-label*="open" i]',
+      ];
+      for (const sel of selectors) {
+        const el = document.querySelector(sel);
+        if (el) return el;
+      }
+      return null;
+    };
+
+    const normalizeLauncher = (el) => {
+      if (!el) return null;
+      // El widget a veces retorna un contenedor; buscamos el botón real.
+      if (el.tagName && el.tagName.toLowerCase() === 'button') return el;
+      const btn = el.querySelector?.('button');
+      return btn || el;
+    };
+
+
+    const brandLauncher = (launcherEl) => {
+      const btn = normalizeLauncher(launcherEl);
+      if (!btn || btn.dataset.sanareLauncherBranded === 'true') return;
+      btn.dataset.sanareLauncherBranded = 'true';
+      btn.classList?.add('sanare-launcher-branded');
+
+      // Estilos base
+      btn.style.position = 'relative';
+      btn.style.backgroundColor = 'rgba(248, 138, 122, 0.98)';
+      btn.style.backgroundImage = "url('assets/img/sanare_s_mark.png')";
+      btn.style.backgroundRepeat = 'no-repeat';
+      btn.style.backgroundPosition = 'center';
+      btn.style.backgroundSize = '68% 68%';
+      btn.style.border = 'none';
+      btn.style.boxShadow = '0 18px 40px rgba(15, 23, 42, 0.18)';
+
+      // Oculta íconos internos que puedan tapar el logo
+      try {
+        btn.querySelectorAll('svg, i, span, [class*="icon" i]').forEach((el) => {
+          el.style.opacity = '0';
+        });
+      } catch (_) {}
+
+      // Overlay del logo (más confiable que background en algunos builds)
+      if (!btn.querySelector('.sanare-launcher-logo')) {
+        const img = document.createElement('img');
+        img.src = 'assets/img/sanare_s_mark.png';
+        img.alt = 'Sanaré';
+        img.className = 'sanare-launcher-logo';
+        btn.appendChild(img);
+      }
+    };
+
+    const openChat = (launcherEl) => {
+      const btn = normalizeLauncher(launcherEl);
+      if (!btn) return;
+      const expanded = btn.getAttribute?.('aria-expanded');
+      // Algunos builds no usan aria-expanded; igual intentamos abrir una vez.
+      if (expanded !== 'true') btn.click?.();
+    };
+
+    const watchAndOpen = () => {
+      // intenta varias veces por si el widget tarda en inyectarse
+      let attempts = 0;
+      const tick = () => {
+        attempts += 1;
+        const launcher = findLauncher();
+        if (launcher) {
+          brandLauncher(launcher);
+          openChat(launcher); // abre automáticamente
+          return true;
+        }
+        return false;
+      };
+
+      if (tick()) return;
+
+      const obs = new MutationObserver(() => {
+        // Reintenta en cada inyección/cambio del DOM (el widget a veces re-renderiza el launcher)
+        tick();
+      });
+      obs.observe(document.documentElement, { childList: true, subtree: true, attributes: true });
+
+      // respaldo: reintentos y luego liberamos el observer
+      setTimeout(() => tick(), 6000);
+      setTimeout(() => obs.disconnect(), 12000);
+    };
+
+    const initWithCreateChat = (createChat) => {
+      try {
+        createChat(SANARE_CHAT_CONFIG);
+      } catch (e) {
+        console.error('[Sanaré] Error al inicializar chat:', e);
+      }
+      watchAndOpen();
+    };
+
+    const loadIifeFallback = () => {
+      const candidates = [
+        'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.iife.js',
+        'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.umd.js',
+        'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.js',
+      ];
+
+      const tryNext = (i = 0) => {
+        if (i >= candidates.length) {
+          console.error('[Sanaré] No se pudo cargar el widget de chat desde CDN.');
+          return;
+        }
+        const s = document.createElement('script');
+        s.src = candidates[i];
+        s.async = true;
+        s.onload = () => {
+          const createChat =
+            window.createChat ||
+            window.n8nChat?.createChat ||
+            window.N8NChat?.createChat ||
+            window.n8n?.createChat;
+
+          if (typeof createChat === 'function') {
+            initWithCreateChat(createChat);
+          } else {
+            // Si cargó pero no expuso createChat, probamos el siguiente
+            tryNext(i + 1);
+          }
+        };
+        s.onerror = () => tryNext(i + 1);
+        document.head.appendChild(s);
+      };
+
+      tryNext(0);
+    };
+
+    try {
+      const mod = await import('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js');
+      const createChat =
+        mod?.createChat ||
+        mod?.default?.createChat ||
+        mod?.default;
+
+      if (typeof createChat !== 'function') throw new Error('createChat no encontrado en el módulo ESM');
+      initWithCreateChat(createChat);
+    } catch (err) {
+      console.warn('[Sanaré] Falló el módulo ESM del chat, usando fallback IIFE.', err);
+      loadIifeFallback();
+    }
+  </script>
+
+  <!-- WhatsApp flotante (junto al chatbot) -->
+  <a class="sanare-wa-float" href="https://wa.me/525669998773" target="_blank" rel="noopener" aria-label="WhatsApp Sanaré">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 01.98-.24c1.08.36 2.25.55 3.46.55a1 1 0 011 1v3.5a1 1 0 01-1 1C10.85 21 3 13.15 3 3.5a1 1 0 011-1H7.5a1 1 0 011 1c0 1.21.19 2.38.55 3.46a1 1 0 01-.24.98l-2.14 2.85z"></path>
+    </svg>
+  </a>
+
+</body>
+</html>
